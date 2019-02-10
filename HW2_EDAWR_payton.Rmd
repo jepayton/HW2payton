@@ -226,7 +226,11 @@ ggplot(county_df) +
 Create a histogram of total population for counties in the US. 
 
 ```{r histo_totpop}
-
+ggplot(data=county_df) +
+  geom_histogram(aes(x = TotalPop), 
+                 bins=100,
+                 fill="steelblue",
+color="black")
 ```
 
 Repeat the histogram about but make the following style changes to the plot.
@@ -237,6 +241,14 @@ Repeat the histogram about but make the following style changes to the plot.
 * Change the colors of the bars to something other than the default black
 
 ```{r histo_stylechanges}
+ggplot(data=county_df) +
+  geom_histogram(aes(x = TotalPop), 
+                 bins=100,fill="steelblue",
+color="black") +
+  ggtitle("Distribution of Population For US Counties") +
+  xlab("Total Population") +
+  ylab("Number of Counties")
+
 
 ```
 
@@ -286,7 +298,6 @@ histograms showing how unemployment rate compares by region.  Make sure your gra
 labels. 
 
 ```{r faceted_histo}
-ggplot(data = county_df) + ???
 
 ```
 
