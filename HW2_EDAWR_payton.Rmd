@@ -145,9 +145,10 @@ summary(county_MI)
 
 
 * Are there any NA values? 
-Yes
+Yes, one NA value only in county_df. No NA values in county_MI.
 
 * What differences do you notice between the structure of the two data frames?
+county_MI has an additional variable (peninsula) for a total of 41 variables; county_df has only 40 variables.
 
 ```{r}
 
@@ -183,6 +184,7 @@ ggplot(data=county_df) +
                  fill="steelblue",
 color="black")
 ```
+
 ```{r}
 ggplot(county_df, aes(y=Income, x=1)) +
   geom_boxplot()
@@ -314,14 +316,16 @@ Create a scatter plot using the Michigan only data frame comparing
 Income and MeanCommute.
 
 ```{r xy_inc_commute}
-
+ggplot(data = county_MI, aes(x = Income, y = MeanCommute)) +
+  geom_point()
 ```
 
 Create a modified version of the above scatter plot in which the point color
 is mapped to peninsula and the size is mapped to total population.
 
 ```{r xy_inc_commute_peninsula}
-
+ggplot(county_MI, aes(Income, MeanCommute, color = peninsula, size = TotalPop)) +
+  geom_point()
 ```
 
 Your thoughts on the relationship between these variables?
@@ -340,7 +344,8 @@ Now use the full US data frame.
 Create a scatter plot of TotalPop by Income.
 
 ```{r xy_pop_inc}
-
+ggplot(county_df, aes(TotalPop, Income)) +
+  geom_point()
 ```
 
 The widely varying values make this difficult to interpret in terms of looking
