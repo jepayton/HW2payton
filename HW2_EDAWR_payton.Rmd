@@ -182,23 +182,29 @@ ggplot(data=county_df) +
   geom_histogram(aes(x=Income), 
                  bins=100,
                  fill="steelblue",
-color="black")
+color="black")+
+  ggtitle("Distribution of Median Income For U.S. Households") +
+  xlab("Median Income")
 ```
 
 ```{r}
 ggplot(county_df, aes(y=Income, x=1)) +
-  geom_boxplot()
+  geom_boxplot() +
+  ggtitle("Distribution of Median Income For U.S. Households")
 ```
 
 
 ```{r}
 ggplot(county_df, aes(y=Income, x=Region)) +
-  geom_boxplot()
+  geom_boxplot() + 
+  ggtitle("Distribution of Median Income For U.S. Households By Region")
 ```
 
 ```{r}
 ggplot(county_df, aes(y=Income, x=1)) +
-  geom_violin()
+  geom_violin() + 
+  ggtitle("Median Income For U.S Households") +
+  ylab("Median Income")
 ```
 
 
@@ -207,13 +213,17 @@ ggplot(county_df, aes(y=Income, x=1)) +
 
 ```{r}
 ggplot(county_df, aes(y=Income, x=Region)) +
-  geom_violin()
+  geom_violin() +
+  ggtitle("Distribution of Median Income For U.S. Households By Region") +
+  ylab("Median Income")
 ```
 
 
 ```{r}
 ggplot(county_df) +
-  geom_density(aes(x=Income), fill="grey50")
+  geom_density(aes(x=Income), fill="steelblue") +
+  ggtitle("Distribution of Median Income For U.S Households") + 
+  xlab("Median Income")
 ```
 
 
@@ -230,7 +240,9 @@ ggplot(data=county_df) +
   geom_histogram(aes(x = TotalPop), 
                  bins=100,
                  fill="steelblue",
-color="black")
+color="black") +
+  ggtitle("Distribution of Population For US Counties") +
+  xlab("Total Population")
 ```
 
 Repeat the histogram about but make the following style changes to the plot.
@@ -283,7 +295,11 @@ differ with respect to distribution of median income over the counties?
 
 
 ```{r vp_inc_by_peninsula}
-
+ggplot(county_MI, aes(y = Income, x = peninsula)) +
+  geom_violin() +
+  ggtitle("Distribution of Median Income For Michigan Households By Peninsula") +
+  xlab("Lower Peninsula/Upper Peninsula") +
+  ylab("Median Income")
 ```
 
 Create several boxplots showing how the peninsulas compare with respect to
@@ -328,7 +344,9 @@ Income and MeanCommute.
 
 ```{r xy_inc_commute}
 ggplot(data = county_MI, aes(x = Income, y = MeanCommute)) +
-  geom_point()
+  geom_point() +
+  ggtitle("Mean Commute for Michigan Households by Median Income") +
+  xlab("Median Income - Michigan Households")
 ```
 
 Create a modified version of the above scatter plot in which the point color
@@ -336,8 +354,13 @@ is mapped to peninsula and the size is mapped to total population.
 
 ```{r xy_inc_commute_peninsula}
 ggplot(county_MI, aes(Income, MeanCommute, color = peninsula, size = TotalPop)) +
-  geom_point()
+  geom_point() +
+  ggtitle("Mean Commute for Michigan Households by Median Income") +
+  xlab("Median Income - Michigan Households")
 ```
+
+
+
 
 Your thoughts on the relationship between these variables?
 
@@ -346,7 +369,11 @@ you facet by peninsula as well. How do the relationships compare across the
 peninsulas?
 
 ```{r xy_faceted_peninsula}
-
+ggplot(county_MI, aes(Income, MeanCommute, size = TotalPop)) +
+  geom_point(aes(color = peninsula)) +
+  facet_wrap(~peninsula) +
+  ggtitle("Mean Commute for Michigan Households by Median Income") +
+  xlab("Median Income - Michigan Households")
 ```
 
 
@@ -356,7 +383,10 @@ Create a scatter plot of TotalPop by Income.
 
 ```{r xy_pop_inc}
 ggplot(county_df, aes(TotalPop, Income)) +
-  geom_point()
+  geom_point() +
+  ggtitle("Distribution of Median Income For U.S. Households") +
+  xlab("Total Population - U.S. Households") +
+  ylab("Median Income")
 ```
 
 The widely varying values make this difficult to interpret in terms of looking
