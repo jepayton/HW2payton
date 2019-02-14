@@ -117,7 +117,7 @@ county_MI <- read.table("data/county_MI.csv", header=TRUE, sep=",", stringsAsFac
 ```
 
 * What does each row represent?
-
+> ANSWER: Each row represents population and additional variables for counties.
 Check the structure of each data.frame and use the `summary` function to begin
 exploring the data. 
 
@@ -143,12 +143,17 @@ summary(county_MI)
 ```
 
 
+```{r}
+library(e1071)
+```
+
+
 
 * Are there any NA values? 
->Yes, one NA value only in county_df. No NA values in county_MI.
+> ANSWER: Yes, one NA value only in county_df. No NA values in county_MI.
 
 * What differences do you notice between the structure of the two data frames?
-county_MI has an additional variable (peninsula) for a total of 41 variables; county_df has only 40 variables.
+> ANSWER: county_MI has an additional variable (peninsula) for a total of 41 variables; county_df has only 40 variables.
 
 ```{r}
 
@@ -176,6 +181,8 @@ for that county. You do **NOT** need to compute a median. The values are the med
 Create a histogram, boxplot, kernel density plot and violin plot for median
 income for the entire US. 
 Write a short paragraph describing the distribution of median incomes.
+
+
 
 ```{r}
 ggplot(data=county_df) +
@@ -229,6 +236,12 @@ ggplot(county_df) +
 
 
 
+```{r}
+skewness(county_df$TotalPop)
+skewness(county_MI$TotalPop)
+```
+
+
 
 
 ### Problem 3 - Histogram of total population
@@ -268,7 +281,13 @@ Repeat the histogram but only for counties with less than 1.5 million people. Do
 dplyr to do the filtering - instead, use boolean indexing (see intro to dataframes Rmd file).
 
 ```{r histo_lt1.5m}
-
+ggplot(data = county_df[county_df$TotalPop < 1500000, ]) +
+  geom_histogram(aes(x = TotalPop), 
+                 bins=100,
+                 fill="steelblue",
+color="black") +
+  ggtitle("Distribution of Population For US Counties") +
+  xlab("Total Population")
 
 ```
 
