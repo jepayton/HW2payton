@@ -145,7 +145,7 @@ summary(county_MI)
 
 
 * Are there any NA values? 
-Yes, one NA value only in county_df. No NA values in county_MI.
+>Yes, one NA value only in county_df. No NA values in county_MI.
 
 * What differences do you notice between the structure of the two data frames?
 county_MI has an additional variable (peninsula) for a total of 41 variables; county_df has only 40 variables.
@@ -292,7 +292,7 @@ your graph has a title and good axis labels.
 
 Do the peninsulas 
 differ with respect to distribution of median income over the counties?
-
+>Yes, there is much more variation in the income distribution for LP counties.
 
 ```{r vp_inc_by_peninsula}
 ggplot(county_MI, aes(y = Income, x = peninsula)) +
@@ -306,22 +306,48 @@ Create several boxplots showing how the peninsulas compare with respect to
 some of the other variables. Summarize your findings in a few short paragraphs.
 
 ```{r boxplots}
-
+ggplot(county_MI, aes(y = Unemployment, x = peninsula)) +
+  geom_boxplot() + 
+  ggtitle("Distribution of Unemployment MI Households By Peninsula")
 ```
+
+
+```{r}
+ggplot(county_MI, aes(y = WorkAtHome, x = peninsula)) +
+  geom_boxplot() + 
+  ggtitle("Distribution of WorkAtHome MI Households By Peninsula")
+```
+
+
+
+```{r}
+ggplot(county_MI, aes(y = SelfEmployed, x = peninsula)) +
+  geom_boxplot() + 
+  ggtitle("Distribution of Self Employed MI Households By Peninsula")
+```
+
+
+
+
 
 In county_df you'll see that there's a Region field. Create a set of faceted 
 histograms showing how unemployment rate compares by region.  Make sure your graph has a title and good axis
 labels. 
 
 ```{r faceted_histo}
-
+ggplot(data=county_df) +
+  geom_histogram(aes(x=Unemployment), bins = 100, fill="steelblue", color = "black") +
+  facet_wrap(~Region) +
+  ggtitle("Distribution of Unemployment For U.S. Households By Region")
 ```
 
 Now do a group of boxplots of mean commute time by region.
 
 ```{r bp_commute_region}
-ggplot(data = county_df) + ???
-  
+ggplot(county_df, aes(y = MeanCommute, x = Region)) +
+  geom_boxplot() + 
+  facet_wrap(~Region) +
+  ggtitle("Distribution of Mean Commute U.S. Households By Region") 
   
   
 ```
@@ -333,7 +359,9 @@ your graph has a title and good axis labels. Figure out how to format the
 x-axis labels so that they don't obscure each other.
 
 ```{r bar_counties_by_division}
-ggplot(county_df) + ???
+ggplot(county_df, aes(Division)) + 
+  geom_bar(width = .10) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
 
 ```
 
@@ -394,6 +422,56 @@ for patterns. So, figure out a way to either change the axis scales or
 the plotted data itself to use a base 10 logarithmic scale (or transform).
 Write a short paragraph on why one might want to use a log scale or log
 transform of data when plotting.
+
+```{r}
+ggplot(county_df, aes(TotalPop, Income)) +
+  geom_point() +
+  ggtitle("Distribution of Median Income For U.S. Households") +
+  xlab("Total Population - U.S. Households") +
+  ylab("Median Income") + 
+  xlim(10, 100000) +
+  ylim(10, 100000)
+
+```
+
+
+```{r}
+ggplot(county_df, aes(TotalPop, Income)) +
+  geom_point() +
+  ggtitle("Distribution of Median Income For U.S. Households") +
+  xlab("Total Population - U.S. Households") +
+  ylab("Median Income") + 
+  xlim(100, 100000) +
+  ylim(100, 100000)
+```
+
+
+```{r}
+ggplot(county_df, aes(TotalPop, Income)) +
+  geom_point() +
+  ggtitle("Distribution of Median Income For U.S. Households") +
+  xlab("Total Population - U.S. Households") +
+  ylab("Median Income") + 
+  scale_x_log10() +
+  scale_y_log10()
+```
+
+```{r}
+ggplot(county_df, aes(TotalPop, Income)) +
+  geom_point() +
+  ggtitle("Distribution of Median Income For U.S. Households") +
+  xlab("Total Population - U.S. Households") +
+  ylab("Median Income") +
+  xlim(10000, 125000) +
+  ylim(10000, 125000) +
+  scale_x_continuous(breaks = seq(10000,100000, by = 10000)) +
+  scale_y_continuous(breaks = seq(1000, 125000, by = 10000))              
+```
+
+
+
+
+
 
 ### Hacker Extra - More analysis
 
