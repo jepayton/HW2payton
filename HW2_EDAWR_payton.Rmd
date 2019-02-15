@@ -119,6 +119,7 @@ county_MI <- read.table("data/county_MI.csv", header=TRUE, sep=",", stringsAsFac
 ```
 
 * What does each row represent?
+
 > ANSWER: Each row represents censuse data including population and additional variables for counties in the U.S and State of MI.
 Check the structure of each data.frame and use the `summary` function to begin
 exploring the data. 
@@ -152,9 +153,11 @@ library(e1071)
 
 
 * Are there any NA values? 
+
 > ANSWER: Yes, one NA value only in county_df. No NA values in county_MI.
 
 * What differences do you notice between the structure of the two data frames?
+
 > ANSWER: county_MI has an additional variable (peninsula) for a total of 41 variables; county_df has only 40 variables.
 
 
