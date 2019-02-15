@@ -43,6 +43,8 @@ for this homework assignment in your GitHub account. Periodically push your comm
 to GitHub. When done with the assignment, paste in the URL of your GitHub project
 so that I can go look at it.
 
+>https://github.com/jepayton/HW2payton
+
 ## Step 3 - Set working directory and explore data folder
 
 Set the working directory or create an R Studio project in the current folder. You'll notice that there is a folder named **data**.
@@ -117,7 +119,7 @@ county_MI <- read.table("data/county_MI.csv", header=TRUE, sep=",", stringsAsFac
 ```
 
 * What does each row represent?
-> ANSWER: Each row represents population and additional variables for counties.
+> ANSWER: Each row represents censuse data including population and additional variables for counties in the U.S and State of MI.
 Check the structure of each data.frame and use the `summary` function to begin
 exploring the data. 
 
@@ -155,9 +157,6 @@ library(e1071)
 * What differences do you notice between the structure of the two data frames?
 > ANSWER: county_MI has an additional variable (peninsula) for a total of 41 variables; county_df has only 40 variables.
 
-```{r}
-
-```
 
 The county_MI data frame contains data for Michigan only and includes an
 peninsula field. See **census_data_prep.R** to see how this field was
@@ -182,16 +181,15 @@ Create a histogram, boxplot, kernel density plot and violin plot for median
 income for the entire US. 
 Write a short paragraph describing the distribution of median incomes.
 
+>Distribution is positively skewed with a value of 14, a mean value of $46K exceeding the median value of $45K.
 
 
 ```{r}
 ggplot(data=county_df) +
   geom_histogram(aes(x=Income), 
-                 bins=100,
-                 fill="steelblue",
-color="black")+
-  ggtitle("Distribution of Median Income For U.S. Households") +
-  xlab("Median Income")
+                bins=100, fill="steelblue", color="black") +
+                ggtitle("Distribution of Median Income For U.S. Households") +
+                xlab("Median Income")
 ```
 
 ```{r}
@@ -238,7 +236,10 @@ ggplot(county_df) +
 
 ```{r}
 skewness(county_df$TotalPop)
-skewness(county_MI$TotalPop)
+var(x = county_df$Income, y = NULL, na.rm = TRUE)
+sd(county_df$Income,na.rm = TRUE)
+
+
 ```
 
 
@@ -250,10 +251,7 @@ Create a histogram of total population for counties in the US.
 
 ```{r histo_totpop}
 ggplot(data=county_df) +
-  geom_histogram(aes(x = TotalPop), 
-                 bins=100,
-                 fill="steelblue",
-color="black") +
+  geom_histogram(aes(x = TotalPop), bins=100, fill="steelblue", color="black") +
   ggtitle("Distribution of Population For US Counties") +
   xlab("Total Population")
 ```
@@ -323,6 +321,8 @@ ggplot(county_MI, aes(y = Income, x = peninsula)) +
 
 Create several boxplots showing how the peninsulas compare with respect to
 some of the other variables. Summarize your findings in a few short paragraphs.
+
+>ANSWER: Lower Peninsula has higher median unemployment but less variation. Upper Peninsula has lower median unemployment but more variation as compared to the Lower Peninsula.
 
 ```{r boxplots}
 ggplot(county_MI, aes(y = Unemployment, x = peninsula)) +
@@ -411,17 +411,35 @@ ggplot(county_MI, aes(Income, MeanCommute, color = peninsula, size = TotalPop)) 
 
 Your thoughts on the relationship between these variables?
 
+>ANSWER: There is no relationship indicated between median income and mean commute for Lower Peninsula counties. There appears to be a potential negative relationship between median income and mean commute for Upper Peninsula counties.
+
 Now, create a few more scatter plots using variables of your choosing in which
 you facet by peninsula as well. How do the relationships compare across the
 peninsulas?
 
+> ANSWER: Both the Upper Peninsula and Lower Peninsula display a negative relationship between median income and child poverty. The relationship of the Lower Peninsula appears to have a slightly greater slope.
+
 ```{r xy_faceted_peninsula}
-ggplot(county_MI, aes(Income, MeanCommute, size = TotalPop)) +
+ggplot(county_MI, aes(Income, ChildPoverty)) +
   geom_point(aes(color = peninsula)) +
   facet_wrap(~peninsula) +
-  ggtitle("Mean Commute for Michigan Households by Median Income") +
+  ggtitle("Distribution of Child Poverty By Income In MI") +
   xlab("Median Income - Michigan Households")
 ```
+
+>ANSWER: Data indicate no relationship between Self Employed Households and Child Poverty rate for MI households.
+
+```{r}
+ggplot(county_MI, aes(SelfEmployed, ChildPoverty)) +
+  geom_point(aes(color = peninsula)) +
+  facet_wrap(~peninsula) +
+  ggtitle("Distribution of Child Poverty By SelfEmployed In MI") +
+  xlab("Self Employed - Michigan Households")
+```
+
+
+
+
 
 
 Now use the full US data frame.
@@ -441,6 +459,8 @@ for patterns. So, figure out a way to either change the axis scales or
 the plotted data itself to use a base 10 logarithmic scale (or transform).
 Write a short paragraph on why one might want to use a log scale or log
 transform of data when plotting.
+
+>ANSWER: Log transforming provides a better view of the data.  Variables are spread out to allow detection of relational patterns.
 
 ```{r}
 ggplot(county_df, aes(TotalPop, Income)) +
